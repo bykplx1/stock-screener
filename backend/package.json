@@ -1,0 +1,22 @@
+{
+  "name": "stock-screener-backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "tsx src/scripts/test-fetch.ts",
+    "fetch": "tsx src/scripts/fetch-all-stocks.ts",
+    "scores": "tsx src/scripts/calculate-scores.ts",
+    "build": "tsc",
+    "start": "node dist/scripts/fetch-all-stocks.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1",
+    "yahoo-finance2": "^2.11.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.3"
+  }
+}
