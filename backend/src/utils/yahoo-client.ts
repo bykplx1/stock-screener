@@ -1,39 +1,104 @@
 // backend/src/utils/yahoo-client.ts
-import yahooFinance from 'yahoo-finance2';
+import YahooFinance from 'yahoo-finance2';
 import type { StockSnapshot, FetchResult } from '../types/index.js';
 
-yahooFinance.suppressNotices(['yahooSurvey']);
+const yahooFinance = new YahooFinance({
+  suppressNotices: ['yahooSurvey']
+});
 
 export class YahooFinanceClient {
-  /**
-   * Fetch comprehensive stock data from Yahoo Finance
-   */
-  async fetchStockData(symbol: string): Promise<StockSnapshot | null> {
-    try {
-      const data = await yahooFinance.quoteSummary(symbol, {
-        modules: [
-          'price',
-          'summaryDetail',
-          'financialData',
-          'defaultKeyStatistics',
-          'incomeStatementHistory',
-          'incomeStatementHistoryQuarterly',
-          'balanceSheetHistory',
-          'cashflowStatementHistory'
-        ]
-      });
 
-      return this.transformData(symbol, data);
-      
-    } catch (error) {
-      console.error(`Error fetching ${symbol}:`, error instanceof Error ? error.message : 'Unknown error');
+  async fetchBasicMetrics(symbol: string): Promise<StockSnapshot | null> {
+  try {
+    const q = await yahooFinance.quote(symbol);
+
+    if (!q?.regularMarketPrice) return null;
+
+    return {
+      symbol,
+      snapshot_date: new Date().toISOString().split('T')[0],
+
+      // Price
+      price: q.regularMarketPrice ?? null,
+      market_cap: q.marketCap ?? null,
+
+      // We leave these empty for now
+      pe: q.trailingPE ?? null,
+      roe: null,
+      roic: null,
+      gross_margin: null,
+      operating_margin: null,
+      debt_to_equity: null,
+      current_ratio: null,
+      free_cash_flow: null,
+      revenue_cagr_5y: null,
+      eps_cagr_5y: null,
+      peg: null,
+      fcf_yield: null,
+
+      data_quality_score: this.calculateMvpDataQuality(q)
+    };
+
+    } catch (err) {
+      console.error(`Error fetching ${symbol}:`, err);
       return null;
     }
   }
 
-  /**
-   * Transform Yahoo Finance data to our schema
-   */
+  
+  // give up on these methods for now
+  // =========================================================================
+  // async fetchBasicMetrics(symbol: string): Promise<StockSnapshot | null> {
+  //   try {
+  //     const data = await yahooFinance.quoteSummary(symbol, {
+  //       modules: [
+  //         'price',
+  //         'summaryDetail',
+  //         'defaultKeyStatistics',
+  //         'financialData'        
+  //       ]
+  //     });
+
+  //     return this.transformData(symbol, data);
+      
+  //   } catch (error) {
+  //     console.error(`Error fetching ${symbol} from fetchBasicMetrics:`, error instanceof Error ? error.message : 'Unknown error');
+  //     return null;
+  //   }
+  // }
+
+  // async fetchFinancials(symbol: string): Promise<StockSnapshot | null> {
+  //   try {
+  //     const fundamentals = await yahooFinance.fundamentalsTimeSeries(symbol, {
+  //       periodType: 'annual',
+  //       type: [
+  //         'totalRevenue',
+  //         'netIncome',
+  //         'freeCashFlow',
+  //         'weightedAverageSharesOutstanding'
+  //       ]
+  //     });
+
+  //     return this.transformData(symbol, fundamentals);
+      
+  //   } catch (error) {
+  //     console.error(`Error fetching ${symbol} from fetchFinancials:`, error instanceof Error ? error.message : 'Unknown error');
+  //     return null;
+  //   }
+  // }
+  // =========================================================================
+
+  private calculateMvpDataQuality(q: any): number {
+    let score = 0;
+
+    if (q.regularMarketPrice != null) score += 40;
+    if (q.marketCap != null) score += 30;
+    if (q.trailingPE != null) score += 15;
+    if (q.fiftyTwoWeekHigh != null && q.fiftyTwoWeekLow != null) score += 15;
+
+    return score;
+  }
+
   private transformData(symbol: string, data: any): StockSnapshot {
     const price = data.price;
     const financial = data.financialData;
@@ -146,7 +211,7 @@ export class YahooFinanceClient {
       
       console.log(`[${i + 1}/${symbols.length}] Fetching ${symbol}...`);
       
-      const data = await this.fetchStockData(symbol);
+      const data = await this.fetchBasicMetrics(symbol);
       
       if (data) {
         results.push({ success: true, symbol, data });

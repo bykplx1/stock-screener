@@ -6,6 +6,7 @@
     "test_fetch": "tsx src/scripts/test-fetch.ts",
     "test_db": "tsx src/scripts/test-db.ts",
     "test_env": "tsx src/scripts/test-env.ts",
+    "test_yahoo": "tsx src/scripts/test-yahoo.ts",
     "fetch": "tsx src/scripts/fetch-all-stocks.ts",
     "scores": "tsx src/scripts/calculate-scores.ts",
     "build": "tsc",
