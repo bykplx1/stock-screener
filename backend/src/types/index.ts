@@ -44,8 +44,11 @@ export interface Stock {
   industry: string | null;
   exchange: string | null;
   is_active: boolean;
-  priority_tier: number;
+  priority_tier: number;           // ← Make sure this exists
   last_updated: string | null;
+  update_frequency?: string | null; // ← Optional if you added it
+  created_at?: string;
+  updated_at?: string | null;
 }
 
 export interface ETLJob {

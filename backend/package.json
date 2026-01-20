@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "tsx src/scripts/test-fetch.ts",
+    "test_fetch": "tsx src/scripts/test-fetch.ts",
+    "test_db": "tsx src/scripts/test-db.ts",
+    "test_env": "tsx src/scripts/test-env.ts",
     "fetch": "tsx src/scripts/fetch-all-stocks.ts",
     "scores": "tsx src/scripts/calculate-scores.ts",
     "build": "tsc",
-    "start": "node dist/scripts/fetch-all-stocks.js"
+    "start": "node src/scripts/fetch-all-stocks.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
