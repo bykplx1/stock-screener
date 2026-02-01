@@ -1,4 +1,4 @@
-// backend/src/config/env.ts
+// env.ts
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -10,13 +10,13 @@ interface EnvConfig {
 
 function validateEnv(): EnvConfig {
   const requiredEnvVars = ['SUPABASE_URL', 'SUPABASE_KEY'];
-  
+
   for (const envVar of requiredEnvVars) {
     if (!process.env[envVar]) {
       throw new Error(`Missing required environment variable: ${envVar}`);
     }
   }
-  
+
   return {
     SUPABASE_URL: process.env.SUPABASE_URL!,
     SUPABASE_KEY: process.env.SUPABASE_KEY!,

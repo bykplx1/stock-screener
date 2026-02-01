@@ -1,25 +1,35 @@
 {
   "name": "stock-screener-backend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "type": "module",
+  "description": "Stock screener with Yahoo Finance integration, caching, technical analysis, and scoring",
   "scripts": {
-    "test_fetch": "tsx src/scripts/test-fetch.ts",
-    "test_db": "tsx src/scripts/test-db.ts",
-    "test_env": "tsx src/scripts/test-env.ts",
-    "test_yahoo": "tsx src/scripts/test-yahoo.ts",
+    "analyze": "tsx src/scripts/analyze.ts",
+    "screen": "tsx src/scripts/screen.ts",
     "fetch": "tsx src/scripts/fetch-all-stocks.ts",
     "scores": "tsx src/scripts/calculate-scores.ts",
+    "test:env": "tsx src/scripts/test-env.ts",
+    "test:db": "tsx src/scripts/test-db.ts",
+    "test:yahoo": "tsx src/scripts/test-yahoo.ts",
+    "test:fetch": "tsx src/scripts/test-fetch.ts",
+    "test:batch": "tsx src/scripts/test-batch-fetch.ts",
+    "test:pipeline": "tsx src/scripts/test-full-pipeline.ts",
+    "cache:clear": "tsx -e \"import {CacheManager} from './src/utils/cache.ts'; new CacheManager().clear();\"",
+    "cache:stats": "tsx -e \"import {CacheManager} from './src/utils/cache.ts'; const c=new CacheManager(); console.log(c.getStats());\"",
     "build": "tsc",
-    "start": "node src/scripts/fetch-all-stocks.js"
+    "start": "node dist/scripts/fetch-all-stocks.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
     "dotenv": "^16.3.1",
-    "yahoo-finance2": "^2.11.2"
+    "yahoo-finance2": "^3.13.0"
   },
   "devDependencies": {
-    "@types/node": "^20.10.5",
+    "@types/node": "^22.0.0",
     "tsx": "^4.7.0",
     "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

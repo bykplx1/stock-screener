@@ -9,21 +9,21 @@ on:
 jobs:
   fetch-data:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-      
+
       - name: Install dependencies
         run: |
           cd backend
           npm install
-      
+
       - name: Fetch stock data
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -31,7 +31,7 @@ jobs:
         run: |
           cd backend
           npm run fetch
-      
+
       - name: Calculate scores
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}

@@ -1,5 +1,5 @@
-// backend/src/scripts/test-db.ts
-import { SupabaseService } from '../utils/supabase-client';
+// test-db.ts
+import { SupabaseService } from '../utils/supabase-client.js';
 
 async function testDatabase() {
   console.log('🧪 Testing database connection...\n');
@@ -18,7 +18,7 @@ async function testDatabase() {
       console.log('   Run this SQL in Supabase:');
       console.log(`
         INSERT INTO stocks (symbol, company_name, sector, industry, exchange, is_active)
-        VALUES 
+        VALUES
           ('AAPL', 'Apple Inc.', 'Technology', 'Consumer Electronics', 'NASDAQ', true),
           ('MSFT', 'Microsoft Corporation', 'Technology', 'Software', 'NASDAQ', true),
           ('JPM', 'JPMorgan Chase & Co.', 'Financials', 'Banks', 'NYSE', true);

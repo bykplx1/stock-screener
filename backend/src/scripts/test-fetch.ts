@@ -1,4 +1,4 @@
-// backend/src/scripts/test-fetch.ts
+// test-fetch.ts
 import { YahooFinanceClient } from '../utils/yahoo-client.js';
 import { SupabaseService } from '../utils/supabase-client.js';
 import { saveToDatabase } from '../utils/data-transformer.js';
@@ -8,14 +8,14 @@ const supabase = new SupabaseService();
 
 async function testFetch(): Promise<void> {
   const testSymbols = ['AAPL', 'MSFT', 'JPM'];
-  
+
   console.log('🧪 Testing Yahoo Finance fetch...\n');
 
   for (const symbol of testSymbols) {
     console.log(`\nFetching ${symbol}...`);
-    
-    const data = await yahoo.fetchStockData(symbol);
-    
+
+    const data = await yahoo.fetchBasicMetrics(symbol);
+
     if (data) {
       console.log('✅ Data fetched successfully!');
       console.log(`   Price: $${data.price?.toFixed(2) ?? 'N/A'}`);
@@ -25,7 +25,7 @@ async function testFetch(): Promise<void> {
       console.log(`   Debt/Equity: ${data.debt_to_equity?.toFixed(2) ?? 'N/A'}`);
       console.log(`   Revenue CAGR (5Y): ${data.revenue_cagr_5y ? (data.revenue_cagr_5y * 100).toFixed(2) + '%' : 'N/A'}`);
       console.log(`   Data Quality: ${data.data_quality_score}/100`);
-      
+
       // Save to database
       const result = await saveToDatabase(supabase, data);
       if (result.success) {
@@ -36,10 +36,10 @@ async function testFetch(): Promise<void> {
     } else {
       console.log('❌ Failed to fetch data');
     }
-    
+
     await new Promise(resolve => setTimeout(resolve, 1000));
   }
-  
+
   console.log('\n✅ Test complete!');
 }
 

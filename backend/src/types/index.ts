@@ -1,33 +1,33 @@
-// backend/src/types/index.ts
+// index.ts - Types
 
 export interface StockSnapshot {
   symbol: string;
   snapshot_date: string;
-  
+
   // Quality metrics
   roe: number | null;
   roic: number | null;
   gross_margin: number | null;
   operating_margin: number | null;
-  
+
   // Health metrics
   debt_to_equity: number | null;
   current_ratio: number | null;
   free_cash_flow: number | null;
-  
+
   // Growth metrics
   revenue_cagr_5y: number | null;
   eps_cagr_5y: number | null;
-  
+
   // Valuation metrics
   pe: number | null;
   peg: number | null;
   fcf_yield: number | null;
-  
+
   // Price data
   price: number | null;
   market_cap: number | null;
-  
+
   // Metadata
   data_quality_score: number;
 }
@@ -44,9 +44,9 @@ export interface Stock {
   industry: string | null;
   exchange: string | null;
   is_active: boolean;
-  priority_tier: number;           // ← Make sure this exists
+  priority_tier: number;
   last_updated: string | null;
-  update_frequency?: string | null; // ← Optional if you added it
+  update_frequency?: string | null;
   created_at?: string;
   updated_at?: string | null;
 }

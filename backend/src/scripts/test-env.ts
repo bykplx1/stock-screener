@@ -1,5 +1,5 @@
-// backend/src/scripts/test-env.ts
-import { env } from '../config/env';
+// test-env.ts
+import { env } from '../config/env.js';
 
 console.log('🧪 Testing environment configuration...\n');
 

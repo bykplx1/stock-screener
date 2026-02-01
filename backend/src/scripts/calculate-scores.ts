@@ -1,4 +1,4 @@
-// backend/src/scripts/calculate-scores.ts
+// calculate-scores.ts
 import { SupabaseService } from '../utils/supabase-client.js';
 
 const supabase = new SupabaseService();
@@ -12,22 +12,22 @@ async function calculateScores(): Promise<void> {
   try {
     // 1. Calculate sector benchmarks
     console.log('📊 Calculating sector benchmarks...');
-    await supabase.callFunction('calculate_sector_benchmarks', { 
-      target_date: today 
+    await supabase.callFunction('calculate_sector_benchmarks', {
+      target_date: today
     });
     console.log('   ✅ Sector benchmarks calculated');
 
     // 2. Calculate VI scores
     console.log('📈 Calculating VI scores...');
-    await supabase.callFunction('calculate_vi_scores_with_sector', { 
-      target_date: today 
+    await supabase.callFunction('calculate_vi_scores_with_sector', {
+      target_date: today
     });
     console.log('   ✅ VI scores calculated');
 
     // 3. Calculate sector rankings
     console.log('🏆 Calculating sector rankings...');
-    await supabase.callFunction('calculate_sector_rankings', { 
-      target_date: today 
+    await supabase.callFunction('calculate_sector_rankings', {
+      target_date: today
     });
     console.log('   ✅ Sector rankings calculated');
 

@@ -1,4 +1,4 @@
-// backend/src/utils/data-transformer.ts
+// data-transformer.ts
 import type { StockSnapshot, DatabaseSnapshot, SaveResult } from '../types/index.js';
 import { SupabaseService } from './supabase-client.js';
 
@@ -11,9 +11,9 @@ export async function saveToDatabase(
     const stock = await supabase.getStockBySymbol(stockData.symbol);
 
     if (!stock) {
-      return { 
-        success: false, 
-        error: `Stock ${stockData.symbol} not found in database` 
+      return {
+        success: false,
+        error: `Stock ${stockData.symbol} not found in database`
       };
     }
 
@@ -35,7 +35,7 @@ export async function saveToDatabase(
     await supabase.updateStockLastUpdated(stock.id);
 
     return { success: true };
-    
+
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     console.error(`Error saving ${stockData.symbol}:`, errorMessage);

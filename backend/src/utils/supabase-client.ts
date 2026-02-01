@@ -1,7 +1,7 @@
-// backend/src/utils/supabase-client.ts
+// supabase-client.ts
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { env } from '../config/env.js';
-import type { Stock, ETLJob, APIUsageLog, DatabaseSnapshot } from '../types/index.js';
+import type { Stock, ETLJob, APIUsageLog, DatabaseSnapshot, SaveResult } from '../types/index.js';
 
 export class SupabaseService {
   private client: SupabaseClient;
@@ -75,7 +75,7 @@ export class SupabaseService {
   }
 
   async updateETLJob(
-    jobId: number, 
+    jobId: number,
     updates: Partial<Omit<ETLJob, 'id'>>
   ): Promise<void> {
     const updateData: any = {
@@ -112,5 +112,3 @@ export class SupabaseService {
     return data;
   }
 }
-
-export type { SaveResult } from '../types/index.js';
